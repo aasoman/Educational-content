@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio: Complexity & Critical Practices in Design — Course Portal v4</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#4f46e5',
+                            dark: '#6366f1',
+                            bgLight: '#ffffff',
+                            bgDark: '#090a0f',
+                            panelLight: '#f8fafc',
+                            panelDark: '#11131e',
+                            textLight: '#1e293b',
+                            textDark: '#f3f4f6',
+                            accent: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- MathJax for rendering equations -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/dist/jax-html.js"></script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        .dark ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .tab-transition { transition: all 0.2s ease-in-out; }
+    </style>
+</head>
+<body class="bg-brand-bgLight dark:bg-brand-bgDark text-brand-textLight dark:text-brand-textDark font-sans min-h-screen flex flex-col transition-colors duration-200">
+
+    <!-- Header Navigation -->
+    <header class="border-b border-gray-200 dark:border-gray-800 bg-white/90 dark:bg-brand-bgDark/90 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl">🧩</span>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight tracking-tight text-gray-900 dark:text-white">Studio: Complexity & Critical Practices</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Semester 7 Interaction Design Portal | Max 2 Students / Group</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-brand-panelDark text-gray-700 dark:text-gray-300 hover:ring-2 hover:ring-indigo-500 focus:outline-none transition-all">
+                    <svg id="theme-toggle-light" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 14.121a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zm-1.414-8.485a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" />
+                    </svg>
+                    <svg id="theme-toggle-dark" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub-Header / Main Tabs -->
+    <nav class="bg-gray-50 dark:bg-brand-panelDark border-b border-gray-200 dark:border-gray-800 sticky top-16 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-1 sm:space-x-4 h-12 items-center overflow-x-auto">
+                <button onclick="switchTab('theory')" id="tab-theory" class="tab-transition px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400">
+                    📘 Theory Hub
+                </button>
+                <button onclick="switchTab('brief')" id="tab-brief" class="tab-transition px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300">
+                    📋 Studio Project Brief
+                </button>
+                <button onclick="switchTab('worksheets')" id="tab-worksheets" class="tab-transition px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300">
+                    🛠️ Interactive Worksheets
+                </button>
+                <button onclick="switchTab('gem-architect')" id="tab-gem" class="tab-transition px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300">
+                    🧪 Gem Architect (Prompt Builder)
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+
+        <!-- TAB 1: THEORY HUB -->
+        <section id="content-theory" class="space-y-10">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 rounded-2xl p-8 text-white shadow-xl border border-indigo-700/50">
+                <div class="max-w-3xl">
+                    <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Theoretical Foundations</span>
+                    <h2 class="text-3xl font-extrabold mt-3 tracking-tight">The Unseen Architecture</h2>
+                    <p class="text-indigo-200 text-sm mt-2 leading-relaxed">
+                        A critical narrative journey guiding interaction design students from screen-level touchpoints to complex socio-technical systems, institutional governance, and resilience engineering.
+                    </p>
+                </div>
+            </div>
+
+            <!-- EXPLICIT DEFINITIONS CONTAINER -->
+            <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-6">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
+                    <span>💡</span><span>Core Definitions: Systems, Social Systems & Institutions</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gray-50 dark:bg-gray-900/50 p-5 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <h4 class="font-semibold text-indigo-600 dark:text-indigo-400 mb-2">1. What is a System?</h4>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                            A <strong>system</strong> is an interconnected set of elements (people, technologies, rules, environments) that function as a cohesive whole. Its overall behavior is non-linear and cannot be understood by analyzing isolated parts; system behavior emerges from continuous feedback loops and interdependencies.
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-gray-900/50 p-5 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <h4 class="font-semibold text-indigo-600 dark:text-indigo-400 mb-2">2. What is a Social System?</h4>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                            A <strong>social system</strong> consists of human relationships, cultural norms, communication networks, and self-organizing structures. Unlike deterministic <em>technical systems</em> (which produce predictable outputs from inputs), social systems are contingent, evolutionary, and operate on human agency, motivation, and informal adaptations.
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-gray-900/50 p-5 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <h4 class="font-semibold text-indigo-600 dark:text-indigo-400 mb-2">3. What is an Institution?</h4>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                            In Ostrom's IAD theory, an <strong>institution</strong> is not a physical building, but <em>the set of shared prescriptions, rules, norms, and strategies that humans use to organize repetitive, structured interactions</em>. We contrast <strong>Formal Rules</strong> (written policies/code) with <strong>Rules-in-Use</strong> (de facto practices on the ground).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5-CHAPTER NARRATIVE STORY -->
+            <div class="space-y-8">
+                <!-- Chapter 1 -->
+                <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                    <div class="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 font-semibold text-sm">
+                        <span>CHAPTER 1</span>
+                        <span>•</span>
+                        <span>CRITICAL THEORY & ONTOLOGICAL DESIGN</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">The Illusion of the Isolated Touchpoint</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Designers are often trained to focus strictly on form, aesthetics, and usability—designing a hammer or a smartphone interface as an isolated "thing". However, designed artifacts do not exist in a vacuum. They are created by powerful industrial and digital institutions to structure human behavior. When we design digital touchpoints, we dictate how information flows, who receives resources, and who is penalized. Turning our gaze inward as self-critique (Mareis et al.) allows us to unmask how automated platforms perpetuate systemic precarity and harm marginalized populations.
+                    </p>
+                </div>
+
+                <!-- Chapter 2 -->
+                <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                    <div class="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 font-semibold text-sm">
+                        <span>CHAPTER 2</span>
+                        <span>•</span>
+                        <span>INSTITUTIONAL ANALYSIS AND DEVELOPMENT (IAD)</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Mapping the Action Arena</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                        To diagnose systemic complexity, we treat the policy or platform as an <strong>Action Arena</strong> (Vincent and Elinor Ostrom). The Action Arena is the focal space where participants holding specific positions take actions leading to outcomes.
+                    </p>
+                    <!-- Visual Figure Container -->
+                    <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-800 text-center space-y-2">
+                        <div class="text-xs text-gray-500 font-mono">FIGURE 1: Elinor Ostrom's Institutional Analysis & Development (IAD) Core Flowchart</div>
+                        <div class="max-w-2xl mx-auto bg-gray-200 dark:bg-gray-800 p-6 rounded text-xs text-gray-600 dark:text-gray-400 italic">
+                            [Exogenous Variables: Biophysical/Material Conditions, Attributes of Community, Rules-in-Use] → [Action Arena: Action Situations & Participants] → [Interactions] → [Outcomes & Evaluative Criteria]
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chapter 3 -->
+                <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                    <div class="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 font-semibold text-sm">
+                        <span>CHAPTER 3</span>
+                        <span>•</span>
+                        <span>APPLIED DIAGNOSIS & CONFLICTING RULES</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">When Policy Clashes with Reality</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Systemic friction occurs when <strong>Formal Rules</strong> (the official system mandate or code) clash with <strong>Rules-in-Use</strong> (how people actually behave to survive). 
+                    </p>
+                    <!-- Visual Figure Container -->
+                    <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-800 text-center space-y-2">
+                        <div class="text-xs text-gray-500 font-mono">FIGURE 2: Applied IAD Diagnostic Case Study — Soil & Water Conservation (SWC)</div>
+                        <div class="max-w-2xl mx-auto bg-gray-200 dark:bg-gray-800 p-6 rounded text-xs text-gray-600 dark:text-gray-400 italic">
+                            [Top-down State & Donor Pressure] → [Rigid Compulsory Labor Rules] → [Local Landless Farmers Squeezed] → [Low Local Ownership & Unsustainable Maintenance]
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chapter 4 -->
+                <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                    <div class="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 font-semibold text-sm">
+                        <span>CHAPTER 4</span>
+                        <span>•</span>
+                        <span>WICKED PROBLEMS & CAUSAL LOOP DIAGRAMS</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">The Wickedness of Feedback Loops</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Public policies and platform economies are <strong>Wicked Problems</strong> (Jon Kolko, Rittel & Webber)—they have no definitive formulation and no simple "solution". Instead of guessing cause-and-effect, we model system feedback using <strong>Causal Loop Diagrams (CLDs)</strong> to locate reinforcing loops (vicious cycles) and identify <em>high-leverage intervention points</em>.
+                    </p>
+                    <!-- Visual Figure Container -->
+                    <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-800 text-center space-y-2">
+                        <div class="text-xs text-gray-500 font-mono">FIGURE 3: Dynamics of Feedback Loops — Employee Commitment Virtuous & Vicious Circles</div>
+                        <div class="max-w-2xl mx-auto bg-gray-200 dark:bg-gray-800 p-6 rounded text-xs text-gray-600 dark:text-gray-400 italic">
+                            [Reinforcing Loop (R): Initial Algorithmic Delay Penalty] → [Driver Takes Dangerous Shortcuts] → [Accidents Increase] → [System Imposes Stricter Rules] → [Vicious Cycle Escalates]
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chapter 5 -->
+                <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                    <div class="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 font-semibold text-sm">
+                        <span>CHAPTER 5</span>
+                        <span>•</span>
+                        <span>SAFETY-II & META-DESIGN GOVERNANCE</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Locating Pockets of Resilience</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Traditional <em>Safety-I</em> suppresses human workarounds as "errors". But <strong>Safety-II</strong> recognizes that systems successfully go right because of human adaptation and variability. Students locate <strong>"Pockets of Resilience"</strong>—informal workarounds—and construct a <strong>Meta-Design Governance Framework</strong> ("underdesigning" rules) structured around the <strong>4 Capacities of Resilience (MARL)</strong>: <em>Monitor, Anticipate, Respond, and Learn</em>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- REFERENCE LIBRARY & REPOSITORY -->
+            <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
+                    <span>📚</span><span>Reference Material Library & Open-Access Repository</span>
+                </h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                    Faculty and students can access open-access foundational readings for the course below:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+                    <a href="https://drive.google.com/file/d/1JiEqlhBnkTnwnKPtCeEyCinlhJPmu2mZ/view" target="_blank" class="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-indigo-500 block transition-all">
+                        <div class="font-bold text-indigo-600 dark:text-indigo-400">📄 Ostrom's IAD Guide</div>
+                        <div class="text-gray-500 dark:text-gray-400 mt-1">Michael D. McGinnis — Bloomington School of Institutional Analysis</div>
+                    </a>
+                    <div class="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <div class="font-bold text-indigo-600 dark:text-indigo-400">📄 Wicked Problems: Problems Worth Solving</div>
+                        <div class="text-gray-500 dark:text-gray-400 mt-1">Jon Kolko — Austin Center for Design (ac4d)</div>
+                    </div>
+                    <div class="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <div class="font-bold text-indigo-600 dark:text-indigo-400">📄 Socio-Technical Systems: Meta-Design</div>
+                        <div class="text-gray-500 dark:text-gray-400 mt-1">Gerhard Fischer & Thomas Herrmann (2011)</div>
+                    </div>
+                    <a href="https://publicadministration.un.org/en/research/UN-E-Government-Survey-2024" target="_blank" class="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-indigo-500 block transition-all">
+                        <div class="font-bold text-indigo-600 dark:text-indigo-400">📄 UN E-Government Survey 2024</div>
+                        <div class="text-gray-500 dark:text-gray-400 mt-1">UN DESA — Digital Government Model Framework</div>
+                    </a>
+                    <div class="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <div class="font-bold text-indigo-600 dark:text-indigo-400">📄 Critical Practices in Design</div>
+                        <div class="text-gray-500 dark:text-gray-400 mt-1">Bardzell et al. (MIT Press) & Mareis et al.</div>
+                    </div>
+                    <div class="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <div class="font-bold text-indigo-600 dark:text-indigo-400">📄 Circular Design Guidebook</div>
+                        <div class="text-gray-500 dark:text-gray-400 mt-1">Design Forum Finland & Ville Tikka</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: STUDIO PROJECT BRIEF -->
+        <section id="content-brief" class="hidden space-y-10">
+            <!-- Brief Header -->
+            <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                <div class="flex items-center justify-between">
+                    <span class="bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300 text-xs font-semibold px-2.5 py-0.5 rounded">Semester 7 Studio</span>
+                    <span class="text-xs text-red-500 font-bold uppercase tracking-wider">Group Size: Max 2 Students</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Studio Brief: Socio-Technical Governance & Policy Intervention</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Student pairs select one platform economy or government digital scheme to analyze as a complex socio-technical system. The goal is to formulate complexity, diagnose rule-in-use frictions, and propose a resilient governance roadmap. <strong>NO screen wireframing or UI prototyping is required.</strong>
+                </p>
+            </div>
+
+            <!-- TWO FLEXIBLE SUBMISSION TRACKS -->
+            <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-6">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
+                    <span>🎯</span><span>Flexible Deliverable Tracks (Academic vs. Competition Pathways)</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-5 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-200 dark:border-gray-700 space-y-3">
+                        <span class="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 text-xs font-bold px-2 py-0.5 rounded">TRACK A</span>
+                        <h4 class="text-lg font-bold text-gray-900 dark:text-white">Academic Scholar Track</h4>
+                        <ul class="text-xs text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside">
+                            <li><strong>Stage 1:</strong> 225-Word Abstract / Introductory Article.</li>
+                            <li><strong>Stage 2:</strong> Full Academic Research Paper (IAD Matrix, Swimlane, CLD).</li>
+                            <li><strong>Stage 3:</strong> Systemic Proposal Report (Safety-II, MARL, 3-Year Roadmap).</li>
+                            <li><strong>Jury:</strong> 15-Minute Academic Presentation Deck.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-5 bg-amber-500/5 dark:bg-amber-950/20 rounded-xl border border-amber-200 dark:border-amber-800/40 space-y-3">
+                        <span class="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300 text-xs font-bold px-2 py-0.5 rounded">TRACK B (RECOMMENDED)</span>
+                        <h4 class="text-lg font-bold text-gray-900 dark:text-white">Creative Practice Track (IVSA Competition)</h4>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Target external competitions like IVSA 2027 while proving academic rigor:</p>
+                        <ul class="text-xs text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside">
+                            <li><strong>Public Deliverable:</strong> Choose 1 of 5 IVSA formats (A2 Poster, Short Film, Installation, Co-Design Workshop, or Paper).</li>
+                            <li><strong>Behind-the-Scenes Dossier:</strong> Concise diagnostic appendix containing Rule Matrix, Swimlane, CLD, Safety-II Table, and MARL Roadmap.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEATURED COMPETITION: IVSA 2027 -->
+            <div class="bg-gradient-to-br from-amber-500/10 via-brand-panelLight to-brand-panelDark p-6 rounded-xl border border-amber-500/30 shadow-sm space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
+                        <span>🏆</span><span>Featured Call for Submissions: IVSA 2027</span>
+                    </h3>
+                    <span class="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/30">Deadline: 30th October 2026</span>
+                </div>
+                <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                    <strong>International Visual Sociology Association Conference (30 June – 3 July 2027)</strong>. Theme: <em>"A Dance of Perception – the symbiosis between image and sound"</em>. Requires a 225-word abstract. Teams selecting Track B choose one of these formats:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
+                    <div class="p-3 bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800">
+                        <div class="font-bold text-indigo-500">1. Papers</div>
+                        <div class="text-gray-500 mt-1">15-min oral presentation on STS analysis.</div>
+                    </div>
+                    <div class="p-3 bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800">
+                        <div class="font-bold text-indigo-500">2. Posters</div>
+                        <div class="text-gray-500 mt-1">Portrait A2 (59.4x42cm) visual system map.</div>
+                    </div>
+                    <div class="p-3 bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800">
+                        <div class="font-bold text-indigo-500">3. Films</div>
+                        <div class="text-gray-500 mt-1">Short video essay on FilmFreeway.</div>
+                    </div>
+                    <div class="p-3 bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800">
+                        <div class="font-bold text-indigo-500">4. Exhibition</div>
+                        <div class="text-gray-500 mt-1">Experiential data installation.</div>
+                    </div>
+                    <div class="p-3 bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800">
+                        <div class="font-bold text-indigo-500">5. Workshops</div>
+                        <div class="text-gray-500 mt-1">60-120 min co-design session.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 CHOICE DOMAINS -->
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">4 Student Choice Domains (Mapped to Digital India)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-brand-panelDark p-5 rounded-xl border border-gray-200 dark:border-gray-800 space-y-2">
+                        <span class="text-xs font-bold text-indigo-500">THEME A</span>
+                        <h4 class="font-bold text-base text-gray-900 dark:text-white">Dark Stores & Gig Delivery</h4>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">Govt Policy: <strong>Code on Social Security 2020 / ONDC</strong></div>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Friction between strict automated countdown timers and physical urban flooding, where drivers share WhatsApp locations to bypass dispatch algorithms. (SDG 8 & 11)
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-brand-panelDark p-5 rounded-xl border border-gray-200 dark:border-gray-800 space-y-2">
+                        <span class="text-xs font-bold text-indigo-500">THEME B</span>
+                        <h4 class="font-bold text-base text-gray-900 dark:text-white">P2P Solar Micro-Grids</h4>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">Govt Policy: <strong>PM-KUSUM / National Smart Grid Mission</strong></div>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Automated prepaid meters shutting off power during heatwaves, prompting neighbors to run informal physical extension lines across rooftops. (SDG 7 & 12)
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-brand-panelDark p-5 rounded-xl border border-gray-200 dark:border-gray-800 space-y-2">
+                        <span class="text-xs font-bold text-indigo-500">THEME C</span>
+                        <h4 class="font-bold text-base text-gray-900 dark:text-white">Agritech Platforms & Farmer Commons</h4>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">Govt Policy: <strong>e-NAM / AgriStack</strong></div>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Camera-grading algorithms rejecting "imperfect" produce, driving farmers to build local WhatsApp produce barter networks. (SDG 2, 9 & 12)
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-brand-panelDark p-5 rounded-xl border border-gray-200 dark:border-gray-800 space-y-2">
+                        <span class="text-xs font-bold text-indigo-500">THEME D</span>
+                        <h4 class="font-bold text-base text-gray-900 dark:text-white">Circular Waste-Sorting</h4>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">Govt Policy: <strong>Swachh Bharat 2.0 / SWM Rules 2016</strong></div>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Municipal optical sorters excluding informal waste-pickers, while pickers pre-sort organic hazards blocks away to prevent machine jams. (SDG 1 & 12)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: INTERACTIVE WORKSHEETS -->
+        <section id="content-worksheets" class="hidden space-y-10">
+            <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Interactive Academic Workbench</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-300">
+                    Draft your system analysis tables directly in the browser. Click <strong>Export</strong> to download a formatted Markdown file for your paper or competition dossier.
+                </p>
+            </div>
+
+            <!-- RULE ANALYSIS MATRIX WORKBOOK -->
+            <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">1. Ostrom Rule Analysis Matrix</h3>
+                    <div class="space-x-2">
+                        <button onclick="addRuleRow()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded shadow transition-all">+ Add Row</button>
+                        <button onclick="exportRuleMatrix()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded shadow transition-all">📥 Export Matrix (.md)</button>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse" id="rule-table">
+                        <thead>
+                            <tr class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700">
+                                <th class="p-3 w-32">Rule Type</th>
+                                <th class="p-3">Formal / Technical Rule (Policy/Code)</th>
+                                <th class="p-3">Rule-in-Use (de facto Practice)</th>
+                                <th class="p-3">Systemic Conflict / Friction</th>
+                                <th class="p-3 w-12">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rule-table-body" class="divide-y divide-gray-200 dark:divide-gray-800">
+                            <tr>
+                                <td class="p-2">
+                                    <select class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs">
+                                        <option>Boundary Rule</option>
+                                        <option>Position Rule</option>
+                                        <option>Choice Rule</option>
+                                        <option>Information Rule</option>
+                                        <option>Scope Rule</option>
+                                        <option>Aggregation Rule</option>
+                                        <option>Payoff Rule</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" placeholder="e.g. Mandatory 10-min delivery window" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                                <td class="p-2"><input type="text" placeholder="e.g. Drivers spoof GPS at dark store" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                                <td class="p-2"><input type="text" placeholder="e.g. Penalty forces unsafe road behavior" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                                <td class="p-2"><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SAFETY-II ADAPTATION TABLE -->
+            <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">2. Safety-II Adaptation Table</h3>
+                    <div class="space-x-2">
+                        <button onclick="addSafetyRow()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded shadow transition-all">+ Add Row</button>
+                        <button onclick="exportSafetyTable()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded shadow transition-all">📥 Export Table (.md)</button>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse" id="safety-table">
+                        <thead>
+                            <tr class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700">
+                                <th class="p-3">Safety-I System Failure</th>
+                                <th class="p-3">Successful Human Adaptation (Pocket of Resilience)</th>
+                                <th class="p-3">MARL Governance Implication</th>
+                                <th class="p-3 w-12">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="safety-table-body" class="divide-y divide-gray-200 dark:divide-gray-800">
+                            <tr>
+                                <td class="p-2"><input type="text" placeholder="e.g. System cuts power during heatwave" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                                <td class="p-2"><input type="text" placeholder="e.g. Extension lines across balconies" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                                <td class="p-2"><input type="text" placeholder="e.g. Formalize community grace period rules" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                                <td class="p-2"><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: GEM ARCHITECT -->
+        <section id="content-gem" class="hidden space-y-10">
+            <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">The Gem Architect (AI Prompt Compiler)</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Prevent context drift by compiling a lightweight system prompt for Google Gemini. Select your options below to build your custom team agent.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Inputs -->
+                <div class="bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                    <h3 class="font-bold text-gray-900 dark:text-white text-base">Configurator</h3>
+                    
+                    <div>
+                        <label class="block text-xs font-semibold mb-1">Target Gem Role</label>
+                        <select id="gem-role" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-2 text-xs">
+                            <option value="coach">Gem A: The STS Design Companion (Coach)</option>
+                            <option value="reviewer">Gem B: The STS Jury Critic (Reviewer)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold mb-1">Domain Theme</label>
+                        <select id="gem-theme" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-2 text-xs">
+                            <option value="Theme A: Dark Stores & Delivery">Theme A: Dark Stores & Gig Delivery</option>
+                            <option value="Theme B: P2P Solar Micro-Grids">Theme B: P2P Solar Micro-Grids</option>
+                            <option value="Theme C: Agritech Platforms">Theme C: Agritech Platforms</option>
+                            <option value="Theme D: Circular Waste-Sorting">Theme D: Circular Waste-Sorting</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold mb-1">Project Phase</label>
+                        <select id="gem-phase" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-2 text-xs">
+                            <option value="Phase 1: Deep Analysis (IAD & CLD)">Phase 1: Deep Analysis (IAD & CLD)</option>
+                            <option value="Phase 2: Policy & Systemic Design (Safety-II & MARL)">Phase 2: Policy & Systemic Design (Safety-II & MARL)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold mb-1">Geographic Region / Context</label>
+                        <input type="text" id="gem-region" value="Mumbai, India" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-2 text-xs">
+                    </div>
+
+                    <button onclick="compilePrompt()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-lg shadow transition-all">Compile System Prompt</button>
+                </div>
+
+                <!-- Output Display -->
+                <div class="lg:col-span-2 bg-white dark:bg-brand-panelDark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4 flex flex-col">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-gray-900 dark:text-white text-base">Compiled System Instructions</h3>
+                        <div class="space-x-2">
+                            <button onclick="copyPrompt()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-900 text-white text-xs font-semibold rounded shadow transition-all">📋 Copy Prompt</button>
+                            <a href="https://gemini.google.com/gems" target="_blank" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded shadow inline-block transition-all">🚀 Open Gemini</a>
+                        </div>
+                    </div>
+                    <textarea id="prompt-output" readonly class="w-full flex-1 min-h-[350px] bg-gray-900 text-gray-200 font-mono text-xs p-4 rounded-lg border border-gray-800 focus:outline-none"></textarea>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-brand-bgDark py-6 text-center text-xs text-gray-500">
+        <p>Studio: Complexity & Critical Practices in Design — Semester 7 Interaction Design</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Tab Switching Logic
+        function switchTab(tabName) {
+            const tabs = ['theory', 'brief', 'worksheets', 'gem'];
+            tabs.forEach(t => {
+                const btn = document.getElementById('tab-' + t);
+                const content = document.getElementById('content-' + t);
+                if (t === tabName) {
+                    btn.classList.add('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
+                    btn.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+                    content.classList.remove('hidden');
+                } else {
+                    btn.classList.remove('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400');
+                    btn.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const lightIcon = document.getElementById('theme-toggle-light');
+        const darkIcon = document.getElementById('theme-toggle-dark');
+
+        function updateThemeIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                lightIcon.classList.remove('hidden');
+                darkIcon.classList.add('hidden');
+            } else {
+                lightIcon.classList.add('hidden');
+                darkIcon.classList.remove('hidden');
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            updateThemeIcons();
+        });
+        updateThemeIcons();
+
+        // Worksheet Dynamic Rows Logic
+        function addRuleRow() {
+            const tbody = document.getElementById('rule-table-body');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="p-2">
+                    <select class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs">
+                        <option>Boundary Rule</option>
+                        <option>Position Rule</option>
+                        <option>Choice Rule</option>
+                        <option>Information Rule</option>
+                        <option>Scope Rule</option>
+                        <option>Aggregation Rule</option>
+                        <option>Payoff Rule</option>
+                    </select>
+                </td>
+                <td class="p-2"><input type="text" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                <td class="p-2"><input type="text" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                <td class="p-2"><input type="text" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                <td class="p-2"><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function addSafetyRow() {
+            const tbody = document.getElementById('safety-table-body');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="p-2"><input type="text" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                <td class="p-2"><input type="text" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                <td class="p-2"><input type="text" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-1 text-xs"></td>
+                <td class="p-2"><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function deleteRow(btn) {
+            btn.closest('tr').remove();
+        }
+
+        function exportRuleMatrix() {
+            const rows = document.querySelectorAll('#rule-table-body tr');
+            let md = '# Ostrom Rule Analysis Matrix\n\n';
+            md += '| Rule Type | Formal / Technical Rule | Rule-in-Use (Practice) | Systemic Conflict |\n';
+            md += '| --- | --- | --- | --- |\n';
+            rows.forEach(r => {
+                const type = r.cells[0].querySelector('select').value;
+                const formal = r.cells[1].querySelector('input').value || '-';
+                const actual = r.cells[2].querySelector('input').value || '-';
+                const conflict = r.cells[3].querySelector('input').value || '-';
+                md += `| ${type} | ${formal} | ${actual} | ${conflict} |\n`;
+            });
+            downloadFile('rule-analysis-matrix.md', md);
+        }
+
+        function exportSafetyTable() {
+            const rows = document.querySelectorAll('#safety-table-body tr');
+            let md = '# Safety-II Adaptation Table\n\n';
+            md += '| Safety-I Failure | Human Adaptation (Pocket of Resilience) | MARL Governance Implication |\n';
+            md += '| --- | --- | --- |\n';
+            rows.forEach(r => {
+                const fail = r.cells[0].querySelector('input').value || '-';
+                const adapt = r.cells[1].querySelector('input').value || '-';
+                const marl = r.cells[2].querySelector('input').value || '-';
+                md += `| ${fail} | ${adapt} | ${marl} |\n`;
+            });
+            downloadFile('safety-2-adaptation-table.md', md);
+        }
+
+        function downloadFile(filename, text) {
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        // Gem Prompt Compiler Logic
+        function compilePrompt() {
+            const role = document.getElementById('gem-role').value;
+            const theme = document.getElementById('gem-theme').value;
+            const phase = document.getElementById('gem-phase').value;
+            const region = document.getElementById('gem-region').value;
+
+            let prompt = "";
+            if (role === 'coach') {
+                prompt = `You are "Gem A: The STS Design Companion", a Socratic design coach for Semester 7 Interaction Design students at the university.\n\n`;
+                prompt += `PROJECT CONTEXT:\n- Selected Theme: ${theme}\n- Target Region: ${region}\n- Current Phase: ${phase}\n\n`;
+                prompt += `CORE PEDAGOGICAL INSTRUCTIONS:\n`;
+                prompt += `1. Do NOT write or generate the final solution for the students.\n`;
+                prompt += `2. Ask probing questions using Ostrom's IAD framework (Action Arena, 7 Rules-in-Use) and Resilience Engineering (Safety-II, MARL).\n`;
+                prompt += `3. Guide students to contrast Formal Technical Rules against informal Rules-in-Use.\n`;
+                prompt += `4. Help students locate "Pockets of Resilience" and model Reinforcing Causal Loops (CLDs).\n`;
+                prompt += `5. Keep responses concise and focused on systemic formulation and policy suggestions.`;
+            } else {
+                prompt = `You are "Gem B: The STS Jury Critic", an expert academic reviewer for Semester 7 Interaction Design student submissions.\n\n`;
+                prompt += `PROJECT CONTEXT:\n- Selected Theme: ${theme}\n- Target Region: ${region}\n- Evaluation Phase: ${phase}\n\n`;
+                prompt += `CORE CRITIQUE INSTRUCTIONS:\n`;
+                prompt += `1. Critique student drafts against Course Outcomes CO1 (Identifying societal problems), CO2 (Formulating complexity via CLDs), and CO3 (Critical practices & MARL roadmaps).\n`;
+                prompt += `2. Check if their Rule Analysis Matrix clearly isolates Payoff vs Choice rule conflicts.\n`;
+                prompt += `3. Verify that their proposed intervention is a Meta-Design Governance Plan ("underdesigning" rules), NOT a UI screen mock-up.\n`;
+                prompt += `4. Provide constructive, rigorous feedback in 3 bulleted sections: Strengths, Systemic Gaps, and Actionable Steps.`;
+            }
+
+            document.getElementById('prompt-output').value = prompt;
+        }
+
+        function copyPrompt() {
+            const output = document.getElementById('prompt-output');
+            output.select();
+            document.execCommand('copy');
+            alert('Prompt copied to clipboard!');
+        }
+
+        // Initial compile on load
+        compilePrompt();
+    </script>
+</body>
+</html>
